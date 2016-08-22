@@ -37,14 +37,25 @@
 
 \begin{document}
 
-\begin{enumerate}
-    \item{\bfseries จงนิยามโครงสร้างข้อมูลเพื่อจัดเก็บข่าวจากแหล่งข่าวที่แตกต่างกันซึ่งประกอบไปด้วยข้อมูล ได้แก่ สำนักข่าว วันที่เผยแพร่ หัวข้อข่าว เนื้อหาข่าว นักข่าว และประเภท เช่น ทั่วไป รายงานพิเศษ} \\ \\
-        การออกแบบโครงสร้างข้อมูลสำหรับแหล่งข่าวในครั้งนี้ได้นำรูปแบบการจัดเก็บโดยอ้างอิงจากโครงสร้างข้อมูล Dublin Core \cite{dublincore} ทั้ง 15 รายการ โดยคัดเลือกบางส่วนที่เกี่ยวข้อง ดังนี้ 
-\end{enumerate}
+\noindent
+\textbf{\underline{โจทย์}} จงนิยามโครงสร้างข้อมูลเพื่อจัดเก็บข่าวจากแหล่งข่าวที่แตกต่างกันซึ่งประกอบไปด้วยข้อมูล ได้แก่ สำนักข่าว วันที่เผยแพร่ หัวข้อข่าว เนื้อหาข่าว นักข่าว และประเภท เช่น ทั่วไป รายงานพิเศษ \\ \\
+\textbf{\underline{คำตอบ}} การออกแบบโครงสร้างข้อมูลสำหรับแหล่งข่าวในครั้งนี้ได้นำรูปแบบการจัดเก็บโดยอ้างอิงจากโครงสร้างข้อมูล Dublin Core \cite{dublincore} ทั้ง 15 รายการ โดยคัดเลือกบางส่วนที่เกี่ยวข้อง ดังนี้ 
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{fig/news-structure}
+    \caption{ความสัมพันธ์ระหว่างตาราง}
+    \label{fig:erdiagram}
+\end{figure}
+
+จาก\figurename \ref{fig:erdiagram} ข่าว (\textit{news} - \tablename\,\ref{tab:news}) สามารถระบุประเภทข่าวได้ 1 ประเภท ตามประเภทข่าวที่กำหนดไว้ (\textit{type} - \tablename\,\ref{tab:type}) 
+และมีข้อมูลการแบ่งหมวดหมู่พร้อมจับคู่คำสำคัญ (\textit{taxonomy} - \tablename\,\ref{tab:taxonomy}) กันได้อย่างไม่จำกัดจำนวน ตามข้อมูลคำสำคัญ (\textit{keyword} - \tablename\,\ref{tab:keyword}) 
+และหมวดหมู่ของข่าว (\textit{category} - \tablename\,\ref{tab:category}) ที่ได้กำหนดไว้ โดยที่หมวดหมู่ข่าวนั้นสามารถทำลำดับชั้นและกลุ่มของหมวดหมู่ได้ ซึ่งมีคำอธิบายโครงสร้างข้อมูลดังรายการด้านล่าง
 
 \zebra
 \begin{table}[!hbt]
     \caption{news: รายการข้อมูลสำหรับจัดเก็บข้อมูลข่าว}
+    \label{tab:news}
     \centering
     \begin{tabular}{ | l | l | l | l | l | L | }
         \thead{ชื่อ}          & \thead{ประเภทข้อมูล}    & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
@@ -63,6 +74,7 @@
 \zebra
 \begin{table}[!hbt]
     \caption{type: รายการข้อมูลสำหรับจัดเก็บประเภทข่าว}
+    \label{tab:type}
     \centering
     \begin{tabular}{ | l | l | l | l | l | L | }
         \thead{ชื่อ}                  & \thead{ประเภทข้อมูล}    & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
@@ -74,7 +86,8 @@
 
 \zebra
 \begin{table}[!hbt]
-    \caption{type: รายการข้อมูลสำหรับจัดเก็บคำสำคัญ}
+    \caption{keyword: รายการข้อมูลสำหรับจัดเก็บคำสำคัญ}
+    \label{tab:keyword}
     \centering
     \begin{tabular}{ | l | l | l | l | l | L | }
         \thead{ชื่อ}                  & \thead{ประเภทข้อมูล}    & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
@@ -87,6 +100,7 @@
 \zebra
 \begin{table}[!hbt]
     \caption{category: รายการข้อมูลสำหรับจัดเก็บหมวดหมู่}
+    \label{tab:category}
     \centering
     \begin{tabular}{ | l | l | l | l | l | L | }
         \thead{ชื่อ}                      & \thead{ประเภทข้อมูล}    & \thead{คีย์}        & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
@@ -100,13 +114,14 @@
 \zebra
 \begin{table}[!hbt]
     \caption{taxonomy: รายการข้อมูลการจัดกลุ่มหมวดหมู่และคำสำคัญ}
+    \label{tab:taxonomy}
     \centering
     \begin{tabular}{ | l | l | l | l | l | L | }
-        \thead{ชื่อ}                  & \thead{ประเภทข้อมูล}        & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
-        \textit{identifier}         & BIGINT(11)                & PK                    & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้ \\ \hline
-        \textit{object\_id}         & BIGINT(11)                &                       & NOT NULL          &                   & รหัสข่าว \\ \hline
-        \textit{tax\_type}          & enum('category', 'tag')   &                       & NOT NULL          & 'tag'             & ประเภทของป้ายกำกับ \\ \hline
-        \textit{news\_identifier}   & BIGINT(11)                & FK (News.identifier)  & NOT NULL          &                   & รหัสข่าว \\ \hline
+        \thead{ชื่อ}                  & \thead{ประเภทข้อมูล}            & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
+        \textit{identifier}         & BIGINT(11)                    & PK                    & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้ \\ \hline
+        \textit{object\_id}         & BIGINT(11)                    &                       & NOT NULL          &                   & รหัสข่าว \\ \hline
+        \textit{tax\_type}          & enum('category', 'keyword')   &                       & NOT NULL          & 'keyword'         & ประเภทของการแบ่งหมวดหมู่ \\ \hline
+        \textit{news\_identifier}   & BIGINT(11)                    & FK (News.identifier)  & NOT NULL          &                   & รหัสข่าว \\ \hline
     \end{tabular}
 \end{table}
 
