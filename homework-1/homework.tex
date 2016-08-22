@@ -1,0 +1,102 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+\documentclass[16pt,a4paper]{article}
+
+\usepackage{fontspec,xltxtra,xunicode}
+\usepackage{array} % Word warp
+\usepackage[table]{xcolor} % Zebra table
+\usepackage[top=1.5in,bottom=1in,left=1.5in,right=1.5in]{geometry}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{การบ้านครั้งที่ 1}
+\chead{}
+\rhead{\bfseries โครงสร้างข้อมูลสำหรับจัดเก็บข้อมูลข่าว}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{
+    5870972621 นายสิทธิพงษ์ เหล่าโก้ก  \\
+    วิศวกรรมซอฟต์แวร์ ภาคนอกเวลาราชการ
+}
+
+\setmainfont{TH Sarabun New}
+\XeTeXlinebreaklocale 'th'
+\XeTeXlinebreakskip = 0pt plus 1pt
+\defaultfontfeatures{Scale=1.23}
+\renewcommand{\baselinestretch}{1.2}
+\newcolumntype{L}{>{\arraybackslash}m{3cm}}
+
+\newcommand{\authorname}{นายสิทธิพงษ์ เหล่าโก้ก}
+\newcommand{\dublincore}{Dublin Core}
+\renewcommand{\refname}{อ้างอิง}
+\renewcommand{\tablename}{ตาราง}
+\renewcommand{\figurename}{รูปภาพ}
+
+\newcommand{\thead}[1]{\multicolumn{1}{c}{\bfseries #1}}
+
+\begin{document}
+
+\begin{enumerate}
+    \item{\bfseries จงนิยามโครงสร้างข้อมูลเพื่อจัดเก็บข่าวจากแหล่งข่าวที่แตกต่างกันซึ่งประกอบไปด้วยข้อมูล ได้แก่ สำนักข่าว วันที่เผยแพร่ หัวข้อข่าว เนื้อหาข่าว นักข่าว และประเภท เช่น ทั่วไป รายงานพิเศษ} \\
+        การออกแบบโครงสร้างข้อมูลสำหรับแหล่งข่าวในครั้งนี้ได้นำรูปแบบการจัดเก็บโดยอ้างอิงจากโครงสร้างข้อมูล Dublin Core \cite{dublincore} โดยคัดเลือกรายการที่น่าจะเกี่ยวข้องมาทั้งสิ้น x รายการ ได้แก่
+\end{enumerate}
+
+\rowcolors{2}{gray!25}{white}
+
+\begin{table}[!hbt]
+    \caption{news: รายการข้อมูลสำหรับจัดเก็บข้อมูลข่าว}
+    \centering
+    \begin{tabular}{ | l | l | l | l | l | L | }
+        \thead{ชื่อ}          & \thead{ประเภทข้อมูล}    & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
+        \textit{identifier} & BIGINT(11)            & PK                    & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้\\ \hline
+        \textit{title}      & VARCHAR(200)          &                       & NOT NULL          &                   & ข้อความสำหรับบันทึกหัวข้อข่าว \\ \hline
+        \textit{date}       & DATE                  &                       &                   & CURRENT\_DATETIME & วันที่ที่เผยแพร่ข่าว โดยใช้รูปแบบ YYYY-MM-DD ตามที่ได้กำหนดไว้ในมาตรฐาน ISO 86013 \cite{iso8601} \\ \hline
+        \textit{creator}    & VARCHAR(50)           &                       & NOT NULL          &                   & ชื่อนักข่าวผู้เขียนข่าวนี้ขึ้นมา \\ \hline
+        \textit{description}& TEXT                  &                       & NOT NULL          &                   & เนื้อข่าว  \\ \hline
+        \textit{publisher}  & VARCHAR(50)           &                       & NOT NULL          &                   & สำนักพิพม์  \\ \hline
+        \textit{type\_id}   & BIGINT(11)            & FK (type.identifier)  &                   & 1                 & รหัสประเภทข่าว  \\ \hline
+        \textit{source}     & VARCHAR(100)          &                       &                   &                   & URL ของเนื้อหาข่าว \\ \hline
+        \textit{language}   & VARCHAR(2)            &                       &                   & 'th'              & ตัวย่อของภาษา 2 ตัวอักษร อ้างตามมาตรฐาน ISO 639-1 \cite{iso639} \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[!hbt]
+    \caption{type: รายการข้อมูลสำหรับจัดเก็บคำสำคัญ}
+    \centering
+    \begin{tabular}{ | l | l | l | l | l | L | }
+        \thead{ชื่อ}                  & \thead{ประเภทข้อมูล}    & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
+        \textit{identifier}         & BIGINT(11)            & PK                    & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้ \\ \hline
+        \textit{title}              & VARCHAR(100)          &                       &                   & NOT NULL          & คำสำคัญ \\ \hline
+        \textit{news\_identifier}   & BIGINT(11)            & FK (News.identifier)  & NOT NULL          & NOT NULL          & ข้อความสำหรับบันทึกหัวข้อข่าว \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[!hbt]
+    \caption{category: รายการข้อมูลสำหรับจัดเก็บหมวดหมู่}
+    \centering
+    \begin{tabular}{ | l | l | l | l | l | L | }
+        \thead{ชื่อ}                      & \thead{ประเภทข้อมูล}    & \thead{คีย์}        & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
+        \textit{identifier}             & BIGINT(11)            & PK                & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้ \\ \hline
+        \textit{title}                  & VARCHAR(100)          &                   & NOT NULL          &                   & คำสำคัญ \\ \hline
+        \textit{description}            & TEXT                  &                   & NOT NULL          &                   & คำอธิบายหมวดหมู่ \\ \hline
+        \textit{category\_identifier}   & BIGINT(11)            & FK (identifier)   & NOT NULL          &                   & รหัสกลุ่มหลัก \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{table}[!hbt]
+    \caption{taxonomy: รายการข้อมูลการจัดกลุ่มหมวดหมู่และคำสำคัญ}
+    \centering
+    \begin{tabular}{ | l | l | l | l | l | L | }
+        \thead{ชื่อ}                  & \thead{ประเภทข้อมูล}        & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
+        \textit{identifier}         & BIGINT(11)                & PK                    & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้ \\ \hline
+        \textit{object\_id}         & BIGINT(11)                &                       & NOT NULL          &                   & รหัสข่าว \\ \hline
+        \textit{tax\_type}          & enum('category', 'tag')   &                       & NOT NULL          & 'tag'             & ประเภทของป้ายกำกับ \\ \hline
+        \textit{news\_identifier}   & BIGINT(11)                & FK (News.identifier)  & NOT NULL          &                   & รหัสข่าว \\ \hline
+    \end{tabular}
+\end{table}
+
+\newpage
+
+\bibliography{references}
+\bibliographystyle{plain}
+\end{document}
