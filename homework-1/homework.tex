@@ -28,7 +28,7 @@
 
 \newcommand{\authorname}{นายสิทธิพงษ์ เหล่าโก้ก}
 \newcommand{\dublincore}{Dublin Core}
-\newcommand{\zebra}{\rowcolors{2}{white}{gray!25}}
+\newcommand{\zebra}{\rowcolors{2}{white}{gray!10}}
 \renewcommand{\refname}{อ้างอิง}
 \renewcommand{\tablename}{ตาราง}
 \renewcommand{\figurename}{รูปภาพ}
@@ -38,10 +38,9 @@
 \begin{document}
 
 \begin{enumerate}
-    \item{\bfseries จงนิยามโครงสร้างข้อมูลเพื่อจัดเก็บข่าวจากแหล่งข่าวที่แตกต่างกันซึ่งประกอบไปด้วยข้อมูล ได้แก่ สำนักข่าว วันที่เผยแพร่ หัวข้อข่าว เนื้อหาข่าว นักข่าว และประเภท เช่น ทั่วไป รายงานพิเศษ} \\
-        การออกแบบโครงสร้างข้อมูลสำหรับแหล่งข่าวในครั้งนี้ได้นำรูปแบบการจัดเก็บโดยอ้างอิงจากโครงสร้างข้อมูล Dublin Core \cite{dublincore} โดยคัดเลือกรายการที่น่าจะเกี่ยวข้องมาทั้งสิ้น x รายการ ได้แก่
+    \item{\bfseries จงนิยามโครงสร้างข้อมูลเพื่อจัดเก็บข่าวจากแหล่งข่าวที่แตกต่างกันซึ่งประกอบไปด้วยข้อมูล ได้แก่ สำนักข่าว วันที่เผยแพร่ หัวข้อข่าว เนื้อหาข่าว นักข่าว และประเภท เช่น ทั่วไป รายงานพิเศษ} \\ \\
+        การออกแบบโครงสร้างข้อมูลสำหรับแหล่งข่าวในครั้งนี้ได้นำรูปแบบการจัดเก็บโดยอ้างอิงจากโครงสร้างข้อมูล Dublin Core \cite{dublincore} ทั้ง 15 รายการ โดยคัดเลือกบางส่วนที่เกี่ยวข้อง ดังนี้ 
 \end{enumerate}
-
 
 \zebra
 \begin{table}[!hbt]
@@ -55,9 +54,21 @@
         \textit{creator}    & VARCHAR(50)           &                       & NOT NULL          &                   & ชื่อนักข่าวผู้เขียนข่าวนี้ขึ้นมา \\ \hline
         \textit{description}& TEXT                  &                       & NOT NULL          &                   & เนื้อข่าว  \\ \hline
         \textit{publisher}  & VARCHAR(50)           &                       & NOT NULL          &                   & สำนักพิพม์  \\ \hline
-        \textit{type\_id}   & BIGINT(11)            & FK (type.identifier)  &                   & 1                 & รหัสประเภทข่าว  \\ \hline
-        \textit{source}     & VARCHAR(100)          &                       &                   &                   & URL ของเนื้อหาข่าว \\ \hline
+        \textit{type\_id}   & BIGINT(11)            & FK (type.identifier)  &                   &                   & รหัสประเภทข่าว  \\ \hline
+        \textit{source}     & VARCHAR(100)          &                       & NOT NULL          &                   & URL ของเนื้อหาข่าว \\ \hline
         \textit{language}   & VARCHAR(2)            &                       &                   & 'th'              & ตัวย่อของภาษา 2 ตัวอักษร อ้างตามมาตรฐาน ISO 639-1 \cite{iso639} \\ \hline
+    \end{tabular}
+\end{table}
+
+\zebra
+\begin{table}[!hbt]
+    \caption{type: รายการข้อมูลสำหรับจัดเก็บประเภทข่าว}
+    \centering
+    \begin{tabular}{ | l | l | l | l | l | L | }
+        \thead{ชื่อ}                  & \thead{ประเภทข้อมูล}    & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
+        \textit{identifier}         & BIGINT(11)            & PK                    & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้ \\ \hline
+        \textit{title}              & VARCHAR(100)          &                       & NOT NULL          &                   & คำสำคัญ \\ \hline
+        \textit{counter}            & BIGINT(11)            &                       &                   & 0                 & จำนวนข่าวทั้งหมดที่จัดอยู่ในประเภทนี้ \\ \hline
     \end{tabular}
 \end{table}
 
@@ -68,8 +79,8 @@
     \begin{tabular}{ | l | l | l | l | l | L | }
         \thead{ชื่อ}                  & \thead{ประเภทข้อมูล}    & \thead{คีย์}            & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
         \textit{identifier}         & BIGINT(11)            & PK                    & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้ \\ \hline
-        \textit{title}              & VARCHAR(100)          &                       &                   & NOT NULL          & คำสำคัญ \\ \hline
-        \textit{news\_identifier}   & BIGINT(11)            & FK (News.identifier)  & NOT NULL          & NOT NULL          & ข้อความสำหรับบันทึกหัวข้อข่าว \\ \hline
+        \textit{title}              & VARCHAR(100)          &                       & NOT NULL          &                   & คำสำคัญ \\ \hline
+        \textit{counter}            & BIGINT(11)            &                       &                   & 0                 & จำนวนข่าวที่เกี่ยวข้องกับคำสำคัญนี้ \\ \hline
     \end{tabular}
 \end{table}
 
@@ -81,8 +92,8 @@
         \thead{ชื่อ}                      & \thead{ประเภทข้อมูล}    & \thead{คีย์}        & \thead{คุณสมบัติ}    & \thead{ค่าเริ่มต้น}   & \thead{คำอธิบาย} \\ \hline
         \textit{identifier}             & BIGINT(11)            & PK                & auto\_increment   &                   & ชุดตัวเลขที่ไม่ซ้ำกันเพื่อใช้บ่งชี้ไปยังเนื้อข่าวที่จำเพาะเจาะจงได้ \\ \hline
         \textit{title}                  & VARCHAR(100)          &                   & NOT NULL          &                   & คำสำคัญ \\ \hline
-        \textit{description}            & TEXT                  &                   & NOT NULL          &                   & คำอธิบายหมวดหมู่ \\ \hline
-        \textit{category\_identifier}   & BIGINT(11)            & FK (identifier)   & NOT NULL          &                   & รหัสกลุ่มหลัก \\ \hline
+        \textit{description}            & VARCHAR(50)           &                   &                   &                   & คำอธิบายหมวดหมู่ \\ \hline
+        \textit{category\_identifier}   & BIGINT(11)            & FK (identifier)   &                   &                   & รหัสกลุ่มหลัก \\ \hline
     \end{tabular}
 \end{table}
 
@@ -103,4 +114,5 @@
 
 \bibliography{references}
 \bibliographystyle{plain}
+
 \end{document}
