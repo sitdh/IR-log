@@ -49,8 +49,9 @@
 \end{figure}
 
 จาก\,\figurename \ref{fig:erdiagram} ข่าว (\textit{news} - \tablename\,\ref{tab:news}) สามารถระบุประเภทข่าวได้ 1 ประเภท ตามประเภทข่าวที่กำหนดไว้ (\textit{type} - \tablename\,\ref{tab:type}) 
-และมีข้อมูลการแบ่งหมวดหมู่พร้อมจับคู่คำสำคัญ (\textit{taxonomy} - \tablename\,\ref{tab:taxonomy}) กันได้อย่างไม่จำกัดจำนวน ตามข้อมูลคำสำคัญ (\textit{keyword} - \tablename\,\ref{tab:keyword}) 
-และหมวดหมู่ของข่าว (\textit{category} - \tablename\,\ref{tab:category}) ที่ได้กำหนดไว้ โดยที่หมวดหมู่ข่าวนั้นสามารถทำลำดับชั้นและกลุ่มของหมวดหมู่ได้ ซึ่งมีคำอธิบายโครงสร้างข้อมูลดังรายการด้านล่าง
+และกำหนดข้อมูลการแบ่งหมวดหมู่พร้อมคำสำคัญ (\textit{taxonomy} - \tablename\,\ref{tab:taxonomy}) ได้อย่างไม่จำกัดจำนวน โดยระบุรหัสของคำสำคัญและหมวดหมู่ของข่าวไว้ที่\,\textit{object\_id} (\textit{taxonomy.object\_id}) 
+ควบคู่กับรหัสข่าวในช่อง \textit{news\_identifier} (เชื่อมโยงไปยัง\,\textit{news.identifier}) เพื่อระบุความสัมพันธ์กับหมวดหมู่ที่จำแนกไว้ ซึ่งข้อมูลที่จะนำมาใส่ไว้ใน\,\textit{object\_id} จะบันทึกไว้ในข้อมูลคำสำคัญ (\textit{keyword} - \tablename\,\ref{tab:keyword}) 
+และหมวดหมู่ของข่าว (\textit{category} - \tablename\,\ref{tab:category}) โดยที่หมวดหมู่ข่าวนั้นสามารถทำลำดับชั้นและกลุ่มของหมวดหมู่ได้ ซึ่งมีคำอธิบายโครงสร้างข้อมูลดังรายการด้านล่าง
 
 \zebra
 \begin{table}[!hbt]
