@@ -1,0 +1,45 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+\documentclass[11pt,a4paper]{report}
+\usepackage{fontspec,xltxtra,xunicode}
+\usepackage[top=1.5in,bottom=1in,left=1.5in,right=1.5in]{geometry}
+\usepackage{polyglossia}
+\newfontfamily\thaifont{TH Sarabun New}
+\setmainfont{TH Sarabun New}
+\setdefaultlanguage{thai}
+\XeTeXlinebreaklocale 'th'
+\usepackage{scrextend}
+% \changefontsizes[20pt]{16pt}
+\XeTeXlinebreakskip = 0pt plus 1pt
+\defaultfontfeatures{Scale=1.23}
+\renewcommand{\baselinestretch}{1.2}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{\bf{การบ้านครั้งที่ 3: คำนวณหา Global Similarity Thesaurus}}
+\rhead{2110xxx: Information Store and Retrieval}
+\cfoot{สิทธิพงษ์ เหล่าโก้ก \\
+5870972621 วิศวกรรมซอฟต์แวร์ ภาคนอกเวลาราชการ}
+
+\begin{document}
+    \emph{\bf{โจทย์}}
+        จงปรับคำค้นตามวิธีการคำนวณแบบ Global Similarity Thesaurus โดยใช้ข้อคำถาม (query) จำนวน 2 ข้อคำถาม คำ (term) ขนาด 10 คำ เพื่อใช้สืบค้นเอกสาร จากจำนวนเอกสารทั้งสิ้น 10 ชิ้น 
+
+    \emph{\bf{วิธีทำ}}  
+
+    กำหนดให้ ข้อคำถาม คือ \emph{"Python programing"} ($q_1$) และ \emph{"Data science"} ($q_2$) โดยจะสืบค้นจากคำอธิบายรายวิชาของวิชา ($D_j$) ที่ได้จากเว็บไซต์ coursera.org, edx.org และ udemy.com ซึ่งประกอบไปด้วยรายวิชาทั้งสิ้น 10 วิชา ($|D_j|$) ดังนี้
+    \begin{itemize}
+        \item ddd
+        \item ddd
+        \item ddd
+        \item ddd
+        \item ddd
+        \item ddd
+        \item ddd
+        \item ddd
+        \item ddd
+        \item ddd
+    \end{itemize}
+        
+\end{document}
+
