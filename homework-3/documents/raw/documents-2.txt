@@ -1,0 +1,8 @@
+Data science with Pandas in Python 3
+This is the most comprehensive, yet straightforward, course for Pandas on Udemy! Whether you have never touched data science before, need a refresh on Pandas basics, or want to learn about the advanced features of Pandas, THIS COURSE IS FOR YOU!
+
+In addition to the Udemy 30-day money back gurantee, you have my personal gurantee that you will love what you learn in this course. If you ever have any questions, please don't hesitate to post it in the course discussion board or message us directly. We will do our best to get back to you as soon as possible!
+
+Jobs in data analysis, especially financial analysis, are pletiful. And because of the imense extensibility, python is growing to be the most popular data science tool! Pandas is the solely most important library you should know to perform analysis! This course will walk you through the very origin or Pandas and show you step-by-step, how Pandas is designed and used! Being able to use Pandas will give you strong background to dive depper into data analysis faithfully!
+
+Is it too much to spend a few hours to add a critical skill on your resume? So what are you waiting for? Learn Pandas in a way that will advance your career and increase your knowledge!

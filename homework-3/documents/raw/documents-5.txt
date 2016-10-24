@@ -1,0 +1,5 @@
+Programming with Python for Data Science
+
+This course is part of the Microsoft Professional Program Certificate in Data Science.
+
+This practical course, developed in partnership with Coding Dojo, targets individuals who have introductory level Python programming experience. The course teaches students how to start looking at data with the lens of a data scientist by applying efficient, well-known mining models in order to unearth useful intelligence, using Python, one of the popular languages for Data Scientists. Topics include data visualization, feature importance and selection, dimensionality reduction, clustering, classification and more! All of the data sets used in this course are gathered live-data or inspired by real-world domains that can benefit from machine learning.

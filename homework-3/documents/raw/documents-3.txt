@@ -1,0 +1,12 @@
+Complete Python Bootcamp
+This is the most comprehensive, yet straight-forward, course for the Python programming language on Udemy! Whether you have never programmed before, already know basic syntax, or want to learn about the advanced features of Python, this course is for you! In this course we will teach you both versions of Python (2 and 3) so you can easily adapt your skill set to either version!
+
+With over 100 lectures and more than 10 hours of video this comprehensive course leaves no stone unturned! This course includes quizzes,tests, and homework assignments as well as 3 major projects to create a Python project portfolio!
+
+This course will teach you Python in a practical manner, with every lecture comes a full coding screencast and a corresponding code notebook! Learn in whatever manner is best for you!
+
+You will get lifetime access to over 100 lectures plus corresponding Notebooks for the lectures! This includes future updates covering Flask development and GUI creation!
+
+This course comes with a 30 day money back guarantee! If you are not satisfied in any way, you'll get your money back. Plus you will keep access to the Notebooks as a thank you for trying out the course!
+
+So what are you waiting for? Learn Python in a way that will advance your career and increase your knowledge, all in a fun and practical way!

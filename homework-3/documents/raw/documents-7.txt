@@ -1,0 +1,12 @@
+Learn to Program Using Python
+
+This is an Archived Course
+EdX keeps courses open for enrollment after they end to allow learners to explore content and continue learning. All features and materials may not be available, and course content will not be updated. Check back often to see when new course start dates are announced.
+
+Interested in learning a computer programming language but unsure of how and where to begin? This course, Learn to Program Using Python, is a great place to start.
+
+Python is an easy and fun language to learn, and it is now one of the most popular programming languages, suitable for almost any task from developing graphical user interfaces to building web applications.
+
+This course is an introduction to the Python programming language. This course is open to all learners who wish to gain an understanding of the basic components of computer programming. You will learn basic computer programming concepts and terminologies such as variables, constants, operators, expressions, conditional statements, loops, and functions. This Python course includes hands-on exercises to help you understand the components of Python programming while incrementally developing more significant programs. The exercises in this course will be based on small assignments which will relate to real-world problems.
+
+No previous programming knowledge needed.
