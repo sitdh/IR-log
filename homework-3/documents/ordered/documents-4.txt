@@ -1,11 +1,10 @@
-
-Python,6
+Python,7
 skills,2
 introductory,2
 courses,2
 research,2
 projects.,1
-course,1
+course,2
 studies,1
 settings.Using,1
 go,1
@@ -33,7 +32,6 @@ practice,1
 Using,1
 3,,1
 ResearchThis,1
-course,,1
 deep,1
 various,1
 While,1
@@ -44,7 +42,6 @@ independent,1
 enough,1
 learn,1
 guided,1
-Python.,1
 reviewing,1
 combination,1
 gap,1

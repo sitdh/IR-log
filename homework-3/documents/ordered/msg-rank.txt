@@ -1,15 +1,13 @@
 Python,25
 course,17
 data,13
-Pandas,8
 learn,5
-get,4
 advanced,3
-back,3
 science,3
 spatial,3
 money,3
 code,3
+programming,2
 practical,3
 introductory,3
 Learn,3
@@ -20,7 +18,6 @@ skills,2
 increase,2
 Notebooks,2
 never,2
-programming,2
 The,2
 perform,2
 courses,2

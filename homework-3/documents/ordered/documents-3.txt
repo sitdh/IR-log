@@ -1,6 +1,5 @@
-
-course,7
-Python,6
+course,8
+Python,7
 get,2
 corresponding,2
 Notebooks,2
@@ -10,7 +9,7 @@ money,2
 practical,2
 lectures,2
 100,2
-Learn,2
+Learn,3
 This,2
 comes,2
 teach,2
@@ -55,7 +54,6 @@ easily,1
 lifetime,1
 career,1
 If,1
-Python,,1
 Complete,1
 already,1
 Udemy!,1
@@ -88,7 +86,6 @@ lecture,1
 Whether,1
 language,1
 best,1
-course!So,1
 you'll,1
 covering,1
 advanced,1
@@ -102,7 +99,6 @@ In,1
 want,1
 leaves,1
 programmed,1
-learn,1
 way,,1
 projects,1
 future,1

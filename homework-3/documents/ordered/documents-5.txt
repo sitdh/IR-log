@@ -1,8 +1,6 @@
-
-data,4
-course,3
-Data,3
-Python,2
+data,7
+course,4
+Python,3
 experience.,1
 benefit,1
 dimensionality,1
@@ -22,7 +20,7 @@ Microsoft,1
 using,1
 more!,1
 partnership,1
-programming,1
+programming,2
 order,1
 developed,1
 targets,1
@@ -43,7 +41,6 @@ learning.,1
 machine,1
 scientist,1
 Science.This,1
-Programming,1
 sets,1
 lens,1
 importance,1
@@ -57,13 +54,11 @@ classification,1
 languages,1
 Certificate,1
 inspired,1
-Python,,1
 students,1
 level,1
 feature,1
 clustering,,1
 unearth,1
-course,,1
 individuals,1
 looking,1
 Dojo,,1
