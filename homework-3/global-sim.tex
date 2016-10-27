@@ -153,12 +153,10 @@
         \centering
         \caption{ค่า itf ของคำในแต่ละเอกสาร}
         \label{tab:itf}
-        \begin{tabular}{lccccc}\hline%
-            คำ ($k_i$) & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$
-            \\\hline \hline
-            \csvreader[head to column names]{itf-cal.csv}{}%
-            {\\\term   & \one & \two & \three & \four & \five}
-            \\\hline 
+        \begin{tabular}{l|ccccc}
+                    & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$ \\
+                    \hline
+            $itf_j$ & 0.7370    & 0.5146    & 0.5146    & 1.3219    & 0.3219 \\
         \end{tabular}
     \end{table}
 
