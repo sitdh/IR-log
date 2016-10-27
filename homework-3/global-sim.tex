@@ -96,9 +96,10 @@
     \begin{table}[ht!]
         \centering
         \caption{สรุปความถี่ของคำที่ปรากฎในเอกสาร}
+        \label{tab:freq}
         \begin{tabular}{ p{3cm}ccccc}
             \hline
-            คำ              & $d_1$ &  $d_2$    &  $d_3$    &  $d_4$    &  $d_5$ \\
+            คำ ($k_i$)      & $d_1$ &  $d_2$    &  $d_3$    &  $d_4$    &  $d_5$ \\
             \hline \hline
             \fir            & 7     &  2        &  7        &  7        &  3  \\
             \seco           & 4     &  5        &  8        &  2        &  4  \\
@@ -115,6 +116,15 @@
             \hline
         \end{tabular}
     \end{table}
+
+    จากนั้นจึงหากค่า Inverse term frequency ของแต่ละคำใน\tablename\ \ref{tab:freq} โดยแยกตามเอกสาร $d_j$ ดังสูตร
+    \begin{equations} 
+        \label{eq:itf}
+        \begin{split}
+            itf_j = \log{\frac{t}{t_j}}
+        \end{split}
+    \end{equations}
+
 
 \end{document}
 
