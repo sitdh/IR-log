@@ -29,7 +29,7 @@
 \newcommand{\nin}{code}
 \newcommand{\ten}{programing}
 
-\usepackage{tabularx}
+\usepackage{amsmath}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -117,13 +117,14 @@
         \end{tabular}
     \end{table}
 
+    \section{คำนวณค่า Inverse term frequency}
     จากนั้นจึงหากค่า Inverse term frequency ของแต่ละคำใน\tablename\ \ref{tab:freq} โดยแยกตามเอกสาร $d_j$ ดังสูตร
-    \begin{equations} 
+    \begin{equation} 
         \label{eq:itf}
         \begin{split}
             itf_j = \log{\frac{t}{t_j}}
         \end{split}
-    \end{equations}
+    \end{equation}
 
 
 \end{document}
