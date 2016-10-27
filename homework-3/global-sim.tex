@@ -1,6 +1,6 @@
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
-\documentclass[11pt,a4paper]{report}
+\documentclass[11pt,a4paper]{article}
 \usepackage{fontspec,xltxtra,xunicode}
 \usepackage[top=1.5in,bottom=1in,left=1.5in,right=1.5in]{geometry}
 \usepackage{polyglossia}
@@ -14,6 +14,23 @@
 \defaultfontfeatures{Scale=1.23}
 \renewcommand{\baselinestretch}{1.2}
 
+\newcommand{\numberOfDocument}{5}
+\newcommand{\numberOfQuery}{2}
+\newcommand{\numberOfTerm}{2}
+
+\newcommand{\fir}{Python}
+\newcommand{\seco}{course}
+\newcommand{\thi}{data}
+\newcommand{\fou}{learn}
+\newcommand{\fif}{advanced}
+\newcommand{\six}{science}
+\newcommand{\sev}{spatial}
+\newcommand{\eig}{money}
+\newcommand{\nin}{code}
+\newcommand{\ten}{programing}
+
+\usepackage{tabularx}
+
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \lhead{\bf{การบ้านครั้งที่ 3: คำนวณหา Global Similarity Thesaurus}}
@@ -23,23 +40,79 @@
 
 \begin{document}
     \emph{\bf{โจทย์}}
-        จงปรับคำค้นตามวิธีการคำนวณแบบ Global Similarity Thesaurus โดยใช้ข้อคำถาม (query) จำนวน 2 ข้อคำถาม คำ (term) ขนาด 10 คำ เพื่อใช้สืบค้นเอกสาร จากจำนวนเอกสารทั้งสิ้น 10 ชิ้น 
+        จงปรับคำค้นตามวิธีการคำนวณแบบ Global Similarity Thesaurus โดยใช้ข้อคำถาม (query) จำนวน \numberOfQuery\ ข้อคำถาม คำ (term) ขนาด \numberOfTerm\ คำ เพื่อใช้สืบค้นเอกสาร จากจำนวนเอกสารทั้งสิ้น \numberOfDocument\ ชิ้น 
 
     \emph{\bf{วิธีทำ}}  
 
-    กำหนดให้ ข้อคำถาม คือ \emph{"Python programing"} ($q_1$) และ \emph{"Data science"} ($q_2$) โดยจะสืบค้นจากคำอธิบายรายวิชาของวิชา ($D_j$) ที่ได้จากเว็บไซต์ coursera.org, edx.org และ udemy.com ซึ่งประกอบไปด้วยรายวิชาทั้งสิ้น 10 วิชา ($|D_j|$) ดังนี้
+    \section{จัดเตรียมข้อมูล}
+
+    กำหนดให้ ข้อคำถามแรก ($q_1$) คือ \emph{"Python programing"} และ ข้อคำถามที่สอง ($q_2$) คือ \emph{"Data science"} โดยจะสืบค้นจากคำอธิบายรายวิชาของวิชา ($D$) ที่ได้จากเว็บไซต์ coursera.org, edx.org และ udemy.com ซึ่งประกอบไปด้วยรายวิชาทั้งสิ้น \numberOfDocument\ วิชา ($|D|$) ดังรายการด้านล่าง
+
     \begin{itemize}
-        \item ddd
-        \item ddd
-        \item ddd
-        \item ddd
-        \item ddd
-        \item ddd
-        \item ddd
-        \item ddd
-        \item ddd
-        \item ddd
+        \item[$d_1$:] {\bf Python for Geospatial}  \\
+            \input{documents/raw/documents-1.txt}
+
+        \item[$d_2$:] {\bf Data science with Pandas in Python 3}  \\
+            \input{documents/raw/documents-2.txt}
+
+        \item[$d_3$:] {\bf Complete Python Bootcamp} \\
+            \input{documents/raw/documents-3.txt}
+
+        \item[$d_4$:] {\bf Using Python for Research} \\
+            \input{documents/raw/documents-4.txt}
+
+        \item[$d_5$:] {\bf Programming with Python for Data Science} \\
+            \input{documents/raw/documents-5.txt}
+
+        % \item[$d_6$:] Introduction to Python for Data Science
+        % \item[$d_7$:] Learn to Program Using Python
+        % \item[$d_8$:] Introduction to Data Science in Python
+        % \item[$d_9$:] Using Python to Access Web Data
+        % \item[$d_{10}$:] Introduction to Data Science in Python
     \end{itemize}
-        
+
+    จากนั้นนำคำที่ปรากฎในรายการของ Stop word ในรายการออกไป โดยใช้ชุดคำสั่งภาษา Python ที่ชื่อว่า nltk (http://nltk.org) จะเหลือข้อมูล
+    
+    \begin{itemize}
+        \item[$d_1$:] {\bf Python for Geospatial}  \\
+            \input{documents/processed/documents-1.txt}
+
+        \item[$d_2$:] {\bf Data science with Pandas in Python 3}  \\
+            \input{documents/processed/documents-2.txt}
+
+        \item[$d_3$:] {\bf Complete Python Bootcamp} \\
+            \input{documents/processed/documents-3.txt}
+
+        \item[$d_4$:] {\bf Using Python for Research} \\
+            \input{documents/processed/documents-4.txt}
+
+        \item[$d_5$:] {\bf Programming with Python for Data Science} \\
+            \input{documents/processed/documents-5.txt}
+    \end{itemize}
+
+    \section{หาค่าความถี่คำที่สนใจ}
+    ในขั้นตอนนี้จะหาความถี่ของคำที่สนใจทั้งหมด 10 คำ จากกลุ่มเอกสาร โดยคำที่เลือกมาได้แก่ \fir\ \seco\ \thi\ \fou\ \fif\ \six\ \sev\ \eig\ \nin\ \ten\ โดยปรากฎความถี่ในแต่ละเอกสารดังนี้
+
+    \begin{table}[ht!]
+        \centering
+        \caption{สรุปความถี่ของคำที่ปรากฎในเอกสาร}
+        \begin{tabular}{ p{3cm} ccccc}
+            \hline
+            คำ      & $d_1$ &  $d_2$    &  $d_3$    &  $d_4$    &  $d_5$    \\
+            \hline \hline
+            \fir    & 0     &  0        &  0        &  0        &  0        \\
+            \seco   & 0     &  0        &  0        &  0        &  0        \\
+            \thi    & 0     &  0        &  0        &  0        &  0        \\
+            \fou    & 0     &  0        &  0        &  0        &  0        \\
+            \fif    & 0     &  0        &  0        &  0        &  0        \\
+            \six    & 0     &  0        &  0        &  0        &  0        \\
+            \sev    & 0     &  0        &  0        &  0        &  0        \\
+            \eig    & 0     &  0        &  0        &  0        &  0        \\
+            \nin    & 0     &  0        &  0        &  0        &  0        \\
+            \ten    & 0     &  0        &  0        &  0        &  0        \\
+            \hline
+        \end{tabular}
+    \end{table}
+
 \end{document}
 
