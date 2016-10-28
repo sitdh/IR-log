@@ -141,28 +141,45 @@
     ยกตัวอย่างเช่น ต้องการคำนวณค่า $itf_1$ ของคำว่า $Python$ ในเอกสาร $d_1$ โดยอ้างจากสมการ \ref{eq:itf} จะได้ว่า
     \begin{equation*}
         \begin{aligned}
-            itf_1 &= \log{\frac{t}{t_j}} \\
-                  &= \log{\frac{10}{6}} \\
+            itf_j &= \log{\frac{t}{t_j}} \\
+            itf_i &= \log{\frac{10}{6}} \\
                   &= \log{1.6667} \\
                   &= 0.7370
         \end{aligned}
     \end{equation*}
 
     ดังนั้น สามารถคำนวณค่า $itf$ ของคำอื่นๆ ในแต่ละเอกสารได้ดังตารางด้านล่าง
+    % \begin{table}[ht!]
+    %     \centering
+    %     \caption{ค่า itf ของคำในแต่ละเอกสาร}
+    %     \label{tab:itf}
+    %     \begin{tabular}{l|cc}
+    %         $k_j$   & $itf_j$   & $itf_j^2$\\
+    %         \hline \hline
+    %         $k_1$   & 0.7370    & 0.5432 \\ 
+    %         $k_2$   & 0.5146    & 0.0239 \\
+    %         $k_3$   & 0.5146    & 0.0239 \\
+    %         $k_4$   & 1.3219    & 1.7474 \\
+    %         $k_5$   & 0.3219    & 0.1036 \\
+    %     \end{tabular}
+    % \end{table}
+
     \begin{table}[ht!]
         \centering
-        \caption{ค่า itf ของคำในแต่ละเอกสาร}
-        \label{tab:itf}
-        \begin{tabular}{l|ccccc}
-                    & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$ \\
-                    \hline
-            $itf_j$ & 0.7370    & 0.5146    & 0.5146    & 1.3219    & 0.3219 \\
+        \caption{ค่าน้ำหนักของคำแยกตามเอกสาร คำนวณโดยใช้สมการ}
+        \label{tab:weight}
+        \begin{tabular}{lccccc}\hline%
+                        & $d_1$ & $d_2$ & $d_3$     & $d_4$     & $d_5$
+            \\\hline \hline
+            \csvreader[head to column names]{itf-cal.csv}{}%
+            {$itf_j$  & \one  & \two  & \three    & \four     & \five}
+            \\\hline 
         \end{tabular}
     \end{table}
 
     \clearpage
     \section{คำนวณนำหนักของคำ}
-    เพื่อหาเวกเตอร์ $\overrightarrow{k}_i$ ที่อยู่ในรูปดังสมการ \ref{eq:kvector} ซึ่งประกอบไปด้วย น้ำหนักของคำที่พบในเอกสาร ($w_(i,j)$) ซึ่งน้ำหนักของคำนี้สามารถคำนวณได้ด้วยสมการที่ \ref{eq:weightcal} โดยพิจารณาน้ำหนักของคำในแต่ละเอกสาร
+    เพื่อหาเวกเตอร์ $\overrightarrow{k}_i$ ที่อยู่ในรูปดังสมการ \ref{eq:kvector} ซึ่งประกอบไปด้วย น้ำหนักของคำที่พบในเอกสาร ($w_{i,j}$) ซึ่งน้ำหนักของคำนี้สามารถคำนวณได้ด้วยสมการที่ \ref{eq:weightcal} โดยพิจารณาน้ำหนักของคำในแต่ละเอกสาร
 
     \begin{equation}
         \label{eq:kvector}
@@ -184,29 +201,81 @@
         \end{tabular}
     \end{table}
 
-    ดังนั้น สามารถใช้ข้อมูลจาก \tablename\ \ref{tab:freq} และ\tablename\ \ref{tab:itf} เข้าร่วมในการคำนวณตามสมการที่ \ref{eq:weightcal} ตัวอย่างเช่น
+    พิจารณาพจน์ $(0.5 + 0.5\frac{f_{i,j}}{max(f_{i,j})})$ โดยกำหนดให้ 
+    \begin{equation}
+        \label{eq:partone}
+        \begin{aligned}
+            w_{i,j}' = 0.5 + 0.5\frac{f_{i,j}}{max(f_{i,j})} itf_j
+        \end{aligned}
+    \end{equation}
 
+    ตัวอย่างการคำนวณ เพื่อหาค่า $w_{i,j}'$ จาก (\ref{eq:partone}) จะได้ว่า
     \begin{equation*}
         \begin{aligned}
-            w_{i,j} &= \frac{(0.5 + 0.5\frac{f_{i,j}}{max_i(f_{i,j})}) itf_{j}}
-                            {\sqrt{\sum_{i=1}^{N}({0.5 + 0.5\frac{f_{i,j}}{max_l(f_{i,l})})^2 itf_j^2}}} \\
-                    &= \frac{(0.5 + 0.5(\frac{7}{7})0.5146}
-                            {\sqrt{(0.5 + 0.5 (\frac{7}{7}) 0.5146)^2}} \\
+            w_{i,j}'    &= 0.5 + 0.5\frac{f_{i,j}}{max(f_{i,j})} itf_j \\
+             w_{1,1}'   &= 0.5 + 0.5(\frac{7}{6}) itf_1 \\
+                        &= 0.5 + 0.5(\frac{7}{6}) 0.7370 \\
+                        &= 0.7370 
         \end{aligned}
     \end{equation*}
 
     \begin{table}[ht!]
         \centering
-        \caption{ค่าน้ำหนักของคำแยกตามเอกสาร คำนวณโดยใช้สมการ \ref{eq:weightcal}}
-        \label{tab:weight}
+        \caption{ส่วนประกอบสมาการ เพื่อหาค่า $w_{i,j}'$}
+        \label{tab:partone}
         \begin{tabular}{lccccc}\hline%
             คำ ($k_i$) & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$
-            \\\hline \hline
-            \csvreader[head to column names]{itf-cal.csv}{}%
-            {\\\term   & \one & \two & \three & \four & \five}
+            \\\\\hline \hline
+            \csvreader[head to column names]{above-eq.csv}{}%
+            {\\ $k_{\thecsvrow}$ & \one & \two & \three & \four & \five}
             \\\hline 
         \end{tabular}
     \end{table}
+
+    % \begin{table}[ht!]
+    %     \centering
+    %     \caption{ค่าน้ำหนักของคำแยกตามเอกสาร คำนวณโดยใช้สมการ \ref{eq:weightcal}}
+    %     \label{tab:weight}
+    %     \begin{tabular}{lccccc}\hline%
+    %         คำ ($k_i$) & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$
+    %         \\\hline \hline
+    %         \csvreader[head to column names]{itf-cal.csv}{}%
+    %         {\\\term   & \one & \two & \three & \four & \five}
+    %         \\\hline 
+    %     \end{tabular}
+    % \end{table}
+
+    ดังนั้น สามารถใช้ข้อมูลจาก \tablename\ \ref{tab:freq} และ\tablename\ \ref{tab:itf} เข้าร่วมในการคำนวณตามสมการที่ \ref{eq:weightcal} ตัวอย่างเช่น
+
+    \begin{equation*}
+        \begin{aligned}
+            w_{i,j} &= \frac{(0.5 + 0.5\frac{f_{i,j}}{max_i(f_{i,j})}) itf_{j}}
+                            {\sqrt{\sum_{i=1}^{N}({0.5 + 0.5\frac{f_{i,j}}{max_l(f_{i,l})})^2 itf_l^2}}} \\
+            w_{1,1} &= \frac{(0.5 + 0.5(\frac{7}{7})0.5146}
+                            {
+                                \sqrt{
+                                    (0.5 + 0.5 (\frac{6}{7})^2) (0.7370)^2)
+                                    + (0.5 + 0.5 (\frac{7}{7})^2) (0.5146)^2)
+                                    + (0.5 + 0.5 (\frac{7}{7})^2) (0.5146)^2)
+                                    + (0.5 + 0.5 (\frac{4}{7})^2) (1.3219)^2)
+                                    + (0.5 + 0.5 (\frac{4}{7})^2) (0.3219)^2)
+                                }
+                            } \\
+        \end{aligned}
+    \end{equation*}
+
+    % \begin{table}[ht!]
+    %     \centering
+    %     \caption{ค่าน้ำหนักของคำแยกตามเอกสาร คำนวณโดยใช้สมการ \ref{eq:weightcal}}
+    %     \label{tab:weight}
+    %     \begin{tabular}{lccccc}\hline%
+    %         คำ ($k_i$) & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$
+    %         \\\hline \hline
+    %         \csvreader[head to column names]{itf-cal.csv}{}%
+    %         {\\\term   & \one & \two & \three & \four & \five}
+    %         \\\hline 
+    %     \end{tabular}
+    % \end{table}
 
 
 \end{document}
