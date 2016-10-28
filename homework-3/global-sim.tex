@@ -166,13 +166,26 @@
 
     \begin{table}[ht!]
         \centering
-        \caption{ค่าน้ำหนักของคำแยกตามเอกสาร คำนวณโดยใช้สมการ}
+        \caption{ค่าน้ำหนักของคำแยกตามเอกสาร ด้วยสมการ (\ref{eq:itf})}
         \label{tab:weight}
         \begin{tabular}{lccccc}\hline%
-                        & $d_1$ & $d_2$ & $d_3$     & $d_4$     & $d_5$
+                & $d_1$ & $d_2$ & $d_3$ & $d_4$ & $d_5$
             \\\hline \hline
             \csvreader[head to column names]{itf-cal.csv}{}%
             {$itf_j$  & \one  & \two  & \three    & \four     & \five}
+            \\\hline 
+        \end{tabular}
+    \end{table}
+
+    \begin{table}[ht!]
+        \centering
+        \caption{ค่าน้ำหนักของคำแยกตามเอกสาร ยกกำลังสอง}
+        \label{tab:weightsqr}
+        \begin{tabular}{lccccc}\hline%
+                        & $d_1$ & $d_2$ & $d_3$     & $d_4$     & $d_5$
+            \\\hline \hline
+            \csvreader[head to column names]{itf-sqr-cal.csv}{}%
+            {$itf_{j}^2$  & \one  & \two  & \three    & \four     & \five}
             \\\hline 
         \end{tabular}
     \end{table}
@@ -219,63 +232,55 @@
         \end{aligned}
     \end{equation*}
 
-    \begin{table}[ht!]
+    \clearpage
+    \begin{table}[hbt!]
         \centering
-        \caption{ส่วนประกอบสมาการ เพื่อหาค่า $w_{i,j}'$}
+        \caption{ส่วนประกอบสมาการ เพื่อหาค่า $w_{i,j}'$ และ $w_{i,j}'^2$}
         \label{tab:partone}
-        \begin{tabular}{lccccc}\hline%
-            คำ ($k_i$) & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$
-            \\\hline \hline
+        \begin{tabular}{l|ccccc|ccccc}\hline%
+            คำ ($k_i$) & $w_{i,1}'$ & $w_{i,2}'$ & $w_{i,3}'$ & $w_{i,4}'$ & $w_{i,5}'$ & $w_{i,1}'^2$  & $w_{i,2}'^2$ & $w_{i,3}'^2$ & $w_{i,4}'^2$ & $w_{i,5}'^2$
+            \\\hline
             \csvreader[head to column names]{above-eq.csv}{}%
-            {\\$k_{\thecsvrow}$ & \one & \two & \three & \four & \five}
+            {\\$k_{\thecsvrow}$ & \one & \two & \three & \four & \five & \six & \seven & \eight & \nine & \ten}
             \\\hline 
         \end{tabular}
     \end{table}
 
-    % \begin{table}[ht!]
-    %     \centering
-    %     \caption{ค่าน้ำหนักของคำแยกตามเอกสาร คำนวณโดยใช้สมการ \ref{eq:weightcal}}
-    %     \label{tab:weight}
-    %     \begin{tabular}{lccccc}\hline%
-    %         คำ ($k_i$) & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$
-    %         \\\hline \hline
-    %         \csvreader[head to column names]{itf-cal.csv}{}%
-    %         {\\\term   & \one & \two & \three & \four & \five}
-    %         \\\hline 
-    %     \end{tabular}
-    % \end{table}
-
-    ดังนั้น สามารถใช้ข้อมูลจาก \tablename\ \ref{tab:freq} และ\tablename\ \ref{tab:itf} เข้าร่วมในการคำนวณตามสมการที่ \ref{eq:weightcal} ตัวอย่างเช่น
-
+    ดังนั้น สามารถใช้ข้อมูลจาก \tablename\ \ref{tab:freq}, \tablename\ \ref{tab:weight}, \tablename\ \ref{tab:weightsqr} และ \tablename\ \ref{tab:partone} เข้าร่วมในการคำนวณตามสมการ (\ref{eq:weightcal}) ตัวอย่างเช่น การคำนวณนำหนักของคำ $k_1$ สำหรับเอกสาร $d_1$ จะสามารถคำนวณได้ดังนี้
     \begin{equation*}
         \begin{aligned}
             w_{i,j} &= \frac{(0.5 + 0.5\frac{f_{i,j}}{max_i(f_{i,j})}) itf_{j}}
                             {\sqrt{\sum_{i=1}^{N}({0.5 + 0.5\frac{f_{i,j}}{max_l(f_{i,l})})^2 itf_l^2}}} \\
-            w_{1,1} &= \frac{(0.5 + 0.5(\frac{7}{7})0.5146}
+            w_{1,1} &= \frac{0.7370}
                             {
                                 \sqrt{
-                                    (0.5 + 0.5 (\frac{6}{7})^2) (0.7370)^2)
-                                    + (0.5 + 0.5 (\frac{7}{7})^2) (0.5146)^2)
-                                    + (0.5 + 0.5 (\frac{7}{7})^2) (0.5146)^2)
-                                    + (0.5 + 0.5 (\frac{4}{7})^2) (1.3219)^2)
-                                    + (0.5 + 0.5 (\frac{4}{7})^2) (0.3219)^2)
+                                    0.5431{\times}0.7370
+                                    + 0.1297{\times}0.5146
+                                    + 0.2327{\times}0.5146
+                                    + 1.7475{\times}1.3219
+                                    + 0.8916{\times}1.7475
                                 }
                             } \\
+                    &= \frac{0.7370}{0.4003 + 0.0667 + 0.1197 + 2.3100 + 1.5581} \\
+                    &= \frac{0.7370}{4.4548} \\
+            w_{1,1} &= 0.1654
         \end{aligned}
     \end{equation*}
 
-    % \begin{table}[ht!]
-    %     \centering
-    %     \caption{ค่าน้ำหนักของคำแยกตามเอกสาร คำนวณโดยใช้สมการ \ref{eq:weightcal}}
-    %     \label{tab:weight}
-    %     \begin{tabular}{lccccc}\hline%
-    %         คำ ($k_i$) & $itf_1$   & $itf_2$   & $itf_3$   & $itf_4$   & $itf_5$
-    %         \\\hline \hline
-    %         \csvreader[head to column names]{itf-cal.csv}{}%
-    %         {\\\term   & \one & \two & \three & \four & \five}
-    %         \\\hline 
-    %     \end{tabular}
-    % \end{table}
+    โดยค่าน้ำหนักทั้งหมดของคำ $k_i$ สำหรับเอกสาร $d_j$ จะได้ดังตารางด้านล่าง
+
+    \begin{table}[ht!]
+        \centering
+        \caption{ค่าน้ำหนักของคำในเอกสาร แยกตามเอกสาร}
+        \label{tab:weight}
+        \begin{tabular}{lccccc}\hline%
+            คำ ($k_i$) & $w_{i,1}$   & $w_{i,2}$   & $w_{i,3}$   & $w_{i,4}$   & $w_{i,5}$
+            \\\hline \hline
+            \csvreader[head to column names]{weight-for-term.csv}{}%
+            {\\ $k_{\thecsvrow}$ & \one & \two & \three & \four & \five}
+            \\\hline 
+        \end{tabular}
+    \end{table}
 
 
 \end{document}
