@@ -44,7 +44,8 @@ with open('itf-sqr-cal.csv', 'w') as itfsq:
     itfsq.write("one,two,three,four,five\n")
     itfsq.write(
             "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}".format(
-                float(itf_square[0,0]), float(itf_square[0,1]), float(itf_square[0,2]), float(itf_square[0,3]), float(itf_square[0,4])
+                float(itf_square[0,0]), float(itf_square[0,1]), 
+                float(itf_square[0,2]), float(itf_square[0,3]), float(itf_square[0,4])
                 ))
 itfsq.close()
 
@@ -91,6 +92,21 @@ with open('weight-for-term.csv', 'w') as weight:
     weight.write("one,two,three,four,five\n")
     for i in range(row):
         weight.write("{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n".format(
-            weight_for_term[i,0], weight_for_term[i,1],weight_for_term[i,2],weight_for_term[i,3],weight_for_term[i,4]
+            weight_for_term[i,0], weight_for_term[i,1],
+            weight_for_term[i,2],weight_for_term[i,3],weight_for_term[i,4]
             ))
 
+weight_for_term_transposed = weight_for_term.transpose()
+
+correlation = np.dot(weight_for_term, weight_for_term_transposed)
+with open('correlation.csv', 'w') as corr:
+    corr.write("one,two,three,four,five,six,seven,eight,nine,ten\n")
+    for i in range(row):
+        corr.write(
+                "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n"
+                .format(
+                    correlation[i,0],correlation[i,1],correlation[i,2],
+                    correlation[i,3],correlation[i,4],correlation[i,5],
+                    correlation[i,6],correlation[i,7],correlation[i,8],correlation[i,9]))
+
+corr.close()
