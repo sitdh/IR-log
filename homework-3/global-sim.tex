@@ -33,6 +33,7 @@
 \usepackage{amsmath}
 \usepackage{csvsimple}
 \usepackage{lipsum}
+\usepackage{listings}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -268,11 +269,10 @@
     \end{equation*}
 
     โดยค่าน้ำหนักทั้งหมดของคำ $k_i$ สำหรับเอกสาร $d_j$ จะได้ดังตารางด้านล่าง
-
-    \begin{table}[ht!]
+    \begin{table}[htb!]
         \centering
         \caption{ค่าน้ำหนักของคำในเอกสาร แยกตามเอกสาร}
-        \label{tab:weight}
+        \label{tab:termweight}
         \begin{tabular}{lccccc}\hline%
             คำ ($k_i$) & $w_{i,1}$   & $w_{i,2}$   & $w_{i,3}$   & $w_{i,4}$   & $w_{i,5}$
             \\\hline \hline
@@ -281,7 +281,49 @@
             \\\hline 
         \end{tabular}
     \end{table}
+    
+    \clearpage
+    \section{ความสัมพันธ์ระหว่างคำ}
+    เพื่อหาความสัมพันธ์กันของคำที่ปรากฎในเอกสาร จะพิจารณาจากผลคูณระหว่างน้ำหนักของคำในเอกสารที่ปรากฎใน \tablename\ \ref{tab:termweight} 
+    และและค่าน้ำหนักในตารางเดิมที่ผ่านการสลับเปลี่ยน (Transpose) แล้ว ดังสมการ
+    \begin{equation}
+        \centering
+        \label{eq:corr}
+        \begin{aligned}
+            C_{\ell} = M_{\ell}M_{\mathcal{\ell}}^{T}
+        \end{aligned}
+    \end{equation}
 
+    \begin{table}[ht!]
+        \begin{tabular}{p{1cm}l}
+            เมื่อ & $M_{\ell}$ คือ เมทริกซ์ของค่าน้ำหนักของคำที่ปรากฎในเอกสาร $d_j$ ใดๆ มีขนาดเป็น ($|D| \times |V|$) \\
+                & $M_{\ell}^{T}$ คือ เมทริกซ์ $M_{\ell}$ ที่ผ่านการสับเปลี่ยนแล้ว \\
+                & $C_{\ell}$ คือ ค่าความสัมพันธ์ \\
+        \end{tabular}
+    \end{table}
+
+    โดยค่าที่คำนวณได้นั้นเป็นดังที่ปรากฎในตารางด้านล่าง
+    \begin{table}[htb!]
+        \centering
+        \caption{ความสัมพันธ์ของคำในเอกสาร}
+        \label{tab:termcorr}
+        \begin{tabular}{lcccccccccc}\hline%
+            & $k_{1}$   & $k_{2}$   & $k_{3}$   & $k_{4}$ & $k_{5}$ & $k_{6}$  & $k_{6}$  & $k_{7}$  & $k_{8}$  & $k_{9}$ 
+            \\\hline \hline
+            \csvreader[head to column names]{correlation.csv}{}%
+            {\\ $k_{\thecsvrow}$ & \one & \two & \three & \four & \five & \six & \seven & \eight & \nine & \ten }
+            \\\hline 
+        \end{tabular}
+    \end{table}
+
+    \section{ซอร์สโค้ดสำหรับการคำนวณ}
+    ในงานครั้งนี้จะใช้ซอร์สโค้ดภาษา Python ร่วมกับชุดคำสั่ง NumPy เพื่อช่วยในการคำนวณดังนี้
+    \lstdefinestyle{irstyle}{
+        tabsize=2,
+        breaklines=true
+    }
+    \lstset{style=irstyle}
+    \lstinputlisting[language=Python]{term-weight.py}
 
 \end{document}
 
