@@ -32,12 +32,21 @@ for i in range(column):
 with open('itf-cal.csv', 'w') as itff:
     itff.write("one,two,three,four,five\n")
     itff.write(
-            "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}".format(
+            "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n".format(
                 float(itf[0,0]), float(itf[0,1]), float(itf[0,2]), float(itf[0,3]), float(itf[0,4])
                 ))
 itff.close()
 print("ITF Value" + "=" * 20)
 print(itf)
+
+itf_square = np.square(itf)
+with open('itf-sqr-cal.csv', 'w') as itfsq:
+    itfsq.write("one,two,three,four,five\n")
+    itfsq.write(
+            "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}".format(
+                float(itf_square[0,0]), float(itf_square[0,1]), float(itf_square[0,2]), float(itf_square[0,3]), float(itf_square[0,4])
+                ))
+itfsq.close()
 
 """
 Weight
@@ -53,9 +62,35 @@ for i in range(row):
     for j in range(column):
         above_eq[i,j] = above_weight(i,j)
 
+above_eq_square = np.square(above_eq)
+
 with open('above-eq.csv', 'w') as abeq:
-    abeq.write("one,two,three,four,five\n")
+    abeq.write("one,two,three,four,five,six,seven,eight,nine,ten\n")
     i = 1
     for i in range(row):
-        msg = "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n".format(above_eq[i,0], above_eq[i,1], above_eq[i,2], above_eq[i,3], above_eq[i,4])
+        msg = "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n".format(
+                above_eq[i,0], above_eq[i,1], above_eq[i,2], above_eq[i,3], above_eq[i,4],
+                above_eq_square[i,0], above_eq_square[i,1], above_eq_square[i,2], above_eq_square[i,3], above_eq_square[i,4]
+                )
         abeq.write(msg)
+
+def below_constant(i):
+    summation = 0;
+    for c in range(column):
+        summation += above_eq_square[i,c] * itf_square[0,c]
+
+    return summation
+
+weight_for_term = np.zeros(shape=(row,column))
+for i in range(row):
+    below_cons = below_constant(i)
+    for j in range(column):
+        weight_for_term[i, j] = above_eq_square[i,j] / below_cons 
+
+with open('weight-for-term.csv', 'w') as weight:
+    weight.write("one,two,three,four,five\n")
+    for i in range(row):
+        weight.write("{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n".format(
+            weight_for_term[i,0], weight_for_term[i,1],weight_for_term[i,2],weight_for_term[i,3],weight_for_term[i,4]
+            ))
+
