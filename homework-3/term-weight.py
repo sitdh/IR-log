@@ -1,5 +1,6 @@
 import numpy as np
 
+number_format = '%.4f'
 term_frequency = np.matrix([
     [7, 2, 7, 7, 3],
     [4, 5, 8, 2, 4],
@@ -29,35 +30,33 @@ ITF Cal
 itf = np.empty_like(distict_term_available)
 for i in range(column):
     itf[0,i] = np.log2( 10 / distict_term_available[0,i] )
-with open('itf-cal.csv', 'w') as itff:
-    itff.write("one,two,three,four,five\n")
-    itff.write(
-            "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n".format(
-                float(itf[0,0]), float(itf[0,1]), float(itf[0,2]), float(itf[0,3]), float(itf[0,4])
-                ))
-itff.close()
-print("ITF Value" + "=" * 20)
-print(itf)
 
-itf_square = np.square(itf)
-with open('itf-sqr-cal.csv', 'w') as itfsq:
-    itfsq.write("one,two,three,four,five\n")
-    itfsq.write(
-            "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}".format(
-                float(itf_square[0,0]), float(itf_square[0,1]), 
-                float(itf_square[0,2]), float(itf_square[0,3]), float(itf_square[0,4])
-                ))
-itfsq.close()
-
+np.savetxt(
+        'itf-cal.csv', 
+        itf, 
+        fmt=number_format, 
+        newline="\n", 
+        delimiter=",", 
+        comments='',
+        header="one,two,three,four,five")
+  
 """
 Weight
 """
 itf_square = np.square(itf)
+np.savetxt(
+        'itf-sqr-cal.csv',
+        itf_square,
+        fmt=number_format,
+        newline='\n',
+        delimiter=',',
+        comments='',
+        header='one,two,three,four,five')
+
 def above_weight(i, j):
     p = (0.5 + 0.5 * term_frequency[i,j]/maximum_freq_of_doc[0,j]) * itf[0,j]
     return p 
 
-# print(np.square(itf))
 above_eq = np.zeros(shape=(row,column))
 for i in range(row):
     for j in range(column):
@@ -88,25 +87,21 @@ for i in range(row):
     for j in range(column):
         weight_for_term[i, j] = above_eq_square[i,j] / below_cons 
 
-with open('weight-for-term.csv', 'w') as weight:
-    weight.write("one,two,three,four,five\n")
-    for i in range(row):
-        weight.write("{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n".format(
-            weight_for_term[i,0], weight_for_term[i,1],
-            weight_for_term[i,2],weight_for_term[i,3],weight_for_term[i,4]
-            ))
+np.savetxt(
+        'weight-for-term.csv',
+        weight_for_term,
+        fmt=number_format,
+        newline="\n",
+        delimiter=',',
+        comments='',
+        header='one,two,three,four,five')
 
-weight_for_term_transposed = weight_for_term.transpose()
-
-correlation = np.dot(weight_for_term, weight_for_term_transposed)
-with open('correlation.csv', 'w') as corr:
-    corr.write("one,two,three,four,five,six,seven,eight,nine,ten\n")
-    for i in range(row):
-        corr.write(
-                "{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f},{:.4f}\n"
-                .format(
-                    correlation[i,0],correlation[i,1],correlation[i,2],
-                    correlation[i,3],correlation[i,4],correlation[i,5],
-                    correlation[i,6],correlation[i,7],correlation[i,8],correlation[i,9]))
-
-corr.close()
+correlation = np.dot(weight_for_term, weight_for_term.T)
+np.savetxt(
+        'correlation.csv',
+        correlation,
+        fmt=number_format,
+        newline="\n",
+        delimiter=',',
+        comments='',
+        header='one,two,three,four,five,six,seven,eight,nine,ten')
