@@ -1,6 +1,6 @@
 %!TEX TS-program = xelatex
 %!TEX encoding = UTF-8 Unicode
-\documentclass[16pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage{fontspec,xltxtra,xunicode}
 \usepackage[top=1.5in,bottom=1in,left=1.5in,right=1.5in]{geometry}
 \usepackage{polyglossia}
@@ -9,12 +9,36 @@
 \setdefaultlanguage{thai}
 \XeTeXlinebreaklocale 'th'
 \usepackage{scrextend}
-\changefontsizes[20pt]{16pt}
+\changefontsizes[12pt]{12pt}
 \XeTeXlinebreakskip = 0pt plus 1pt
 \defaultfontfeatures{Scale=1.23}
 \renewcommand{\baselinestretch}{1.2}
 
+\usepackage{amsmath}
+
 \begin{document}
-    hello
+
+หลังจากได้ฟังอาจารย์ให้คำอธิบายเรื่องข้อสอบกลางภาคแล้ว จึงได้กลับมาทบทวนตัวเองอีกครั้งครับ พบว่ามีเรื่องที่ยังคงไม่เข้าใจอีก 3 ส่วนด้วยกัน IR Model ที่ยังไม่เข้าใจถึงความสัมพันธ์ของสมการในโมเดลนั้นๆ วิธีการคำนวณ และการเปรียบเทียบประสิทธิภาพของโมเดล โดยได้ทำความเข้าใจเนื้อหาที่ยังไม่เข้าใจเพิ่มเติมมาดังนี้ครับ
+
+\section{Information Retrieval Model}
+
+\subsection{TF-IDF Weights}
+
+การหา TF-IDF นั้นประกอบไปด้วย 2 ส่วนย่อยด้วยกันคือ Term Frequency Weights น้ำหนักที่คำนวนจากความถี่ของคำ (Term) ที่ปรากฎในเอกสารแต่ละชิ้น และ Inverse Document Frequency ที่นำมาถ่วงน้ำหนักเข้ากับความถี่ของคำที่พบในเอกสาร โดยมีรายการดังนี้
+
+\subsubsection{TF - Term Frequency weights}
+
+TF คือ น้ำหนักของคำใดๆ แยกตามเอกสาร โดยคิดจากความถี่ของคำที่เกิดขึ้นภายในเอกสารนั้นๆ โดยมีสูตรคือ
+\begin{equation}
+    \label{eq:tf}
+    tf_{i,j} = 
+    \begin{cases}
+        1 + \log_2{f_{i,j}} &;  f_{i,j} > 0 \\
+        0 & otherwise \\
+    \end{cases}
+\end{equation}
+
+\subsubsection{IDF - Inverse Document Frequency}
+
 \end{document}
 
