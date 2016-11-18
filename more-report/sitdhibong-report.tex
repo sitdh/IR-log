@@ -15,30 +15,349 @@
 \renewcommand{\baselinestretch}{1.2}
 
 \usepackage{amsmath}
+\usepackage{pgfplots}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{multirow}
+
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\newcommand{\idf}{ส่วนกลับความถี่เอกสาร}
 
 \begin{document}
 
-หลังจากได้ฟังอาจารย์ให้คำอธิบายเรื่องข้อสอบกลางภาคแล้ว จึงได้กลับมาทบทวนตัวเองอีกครั้งครับ พบว่ามีเรื่องที่ยังคงไม่เข้าใจอีก 3 ส่วนด้วยกัน IR Model ที่ยังไม่เข้าใจถึงความสัมพันธ์ของสมการในโมเดลนั้นๆ วิธีการคำนวณ และการเปรียบเทียบประสิทธิภาพของโมเดล โดยได้ทำความเข้าใจเนื้อหาที่ยังไม่เข้าใจเพิ่มเติมมาดังนี้ครับ
+หลังจากได้ฟังอาจารย์ให้คำอธิบายเรื่องข้อสอบกลางภาคแล้ว จึงได้กลับมาทบทวนตัวเองอีกครั้งครับ พบว่ามีเรื่องที่ยังคงไม่เข้าใจอีก 3 ส่วนด้วยกัน IR Model 
+ที่ยังไม่เข้าใจถึงความสัมพันธ์ของสมการในโมเดลนั้นๆ 
+วิธีการคำนวณ และการเปรียบเทียบประสิทธิภาพของโมเดล โดยได้ทำความเข้าใจเนื้อหาที่ยังไม่เข้าใจเพิ่มเติมมาดังนี้ครับ
 
 \section{Information Retrieval Model}
 
+การค้นคืนเอกสารที่มีความคล้ายคลึงกับคำค้นที่กำหนดให้นั้นในทาง IR (Information Retrieval) จะมีรูปแบบการตัดสินใจถึงความคล้ายคลึงอยู่ด้วยกันหลายวิธีการ 
+ซึ่งแต่ละวิธีการนั้นก็จะมีแนวคิดเพื่อแก้ไขปัญหาแตกต่างกันออกไป ซึ่งรูปแบบการตัดสินใจว่าเอกสาร (Document) ชิ้นใดที่คล้ายคลึงกับคำค้น (Query) 
+ที่ผู้ใช้กำหนดให้ในลักษณะของภาษาธรรมชาติมากที่สุดนั้นเรียกว่า IR Model ซึ่งจากในชั้นเรียนนั้นก็มีหลายโมเดลที่เรียนไปด้วยกัน เริ่มต้นจาก {\bf Boolean Model} 
+ซึ่งโมเดลนี้จะเน้นตามความเข้าใจแล้วน่าจะเป็นโมเดลที่มีการใช้งานในช่วงแรกๆ คำค้นที่จะป้อนให้กับ IR System นั้นจะต้องแปลงให้อยู่ในรูปแบบที่สอดคล้องกับนิพจน์ทางตรรกศาสตร์ 
+โดยข้อเสียของของโมเดลนี้คือหากมีเอกสารที่เกี่ยวข้องอยู่ในคลังเอกสาร (Document collection) แต่ไม่มีคำค้นที่ระบุนั้นปรากฎและสอดคล้องตามนิพจน์ที่ผู้ใช้งานสร้างขึ้น IR System 
+ก็จะไม่คืนเอกสารที่เกี่ยวข้องนั้นให้ และในทางกลับกันหากเอกสารมีคำตามที่ระบุในคำค้น หากแต่ไม่สอดคล้องตามนิพจน์ IR System ก็จะไม่คืนเอกสารนั้นให้ด้วยเช่นกัน 
+โดยโมเดลที่ได้ทำความเข้าใจเพิ่มเติมนั้นก็คือ
+
 \subsection{TF-IDF Weights}
 
-การหา TF-IDF นั้นประกอบไปด้วย 2 ส่วนย่อยด้วยกันคือ Term Frequency Weights น้ำหนักที่คำนวนจากความถี่ของคำ (Term) ที่ปรากฎในเอกสารแต่ละชิ้น และ Inverse Document Frequency ที่นำมาถ่วงน้ำหนักเข้ากับความถี่ของคำที่พบในเอกสาร โดยมีรายการดังนี้
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figure/tf-idf.pdf}
+    \caption{ (a) แนวโน้มของค่า TF (+), IDF (x) ที่มีแนวลดลงเมื่อมีความลดลง และเพิ่มขึ้นเมื่อความถึงน้อยลงตามลำดับ \\ (b) ผลการนำค่า IDF มาถ่วงน้ำหนักกับค่า TF}
+    \label{fig:tfandidf}
+\end{figure}
 
-\subsubsection{TF - Term Frequency weights}
+เป็นโมเดลที่หาความสัมพันธ์ของคำค้นและเอกสารในคลังเอกสาร โดยมีแนวคิดที่ว่า คำ (Term) ที่มีความถี่มากๆ เช่น ใน Term Weights นั้นไม่ใช่ตัวแทนเอกสารที่ดี 
+ดังนั้นหากต้องการได้เอกสารที่สอดคล้องกับคำค้นที่ระบุ ก็ควรหาจากคล้าย (Similarity) ของน้ำหนักความถี่ของคำ (Term Frequency weights) ถ่วงกับ 
+{\idf}\ (Inverse Document Frequency) จากรูปที่ {\ref{fig:tfandidf}}\ นั้น จะเห็นได้ว่า ค่าความคล้าย 
+ซึ่งเกิดจากน้ำหนักความถี่ของคำถ่วงค่า{\idf}ที่มีค่าสูงๆ นั้น จะเกิดคำที่มีความถี่อยู่ในช่วงปานกลาง ไม่ใช่มากที่สุดหรือน้อยที่สุด 
+โดยในการคำนวณของโมเดลนี้จะแบ่งออกเป็น 2 ส่วนย่อยด้วยกัน นั่นคือ TF และ IDF จากนั้นจึงนำค่าทั้ง 2 มาถ่วงน้ำหนักกัน โดยที่มีวิธีการคำนวณดังนี้
 
-TF คือ น้ำหนักของคำใดๆ แยกตามเอกสาร โดยคิดจากความถี่ของคำที่เกิดขึ้นภายในเอกสารนั้นๆ โดยมีสูตรคือ
 \begin{equation}
-    \label{eq:tf}
     tf_{i,j} = 
     \begin{cases}
-        1 + \log_2{f_{i,j}} &;  f_{i,j} > 0 \\
-        0 & otherwise \\
+        1 + \log_2{f_{i,j}} &; f_{i,j} > 0 \\
+        0                   &; otherwise \\
     \end{cases}
+    \label{eq:tf}
 \end{equation}
+
+\begin{table}[ht!]
+    \begin{tabular}{lrl}
+        เมื่อ & $f_{i,j}$     & คือ ความถี่ของคำที่ $i$ ($k_{i}$) ในเอกสารที่ $j$ ($d_{j}$) \\
+            & $tf_{i,j}$    & คือ ค่า TF ที่คำนวณได้
+    \end{tabular}
+\end{table}
+
+จากภาพ \ref{fig:tfandidf}\ จะเห็นได้ว่า TF นั้นมีแนวโน้มลดลงเรื่อยๆ เมื่อคำมีความถี่ลดลงเรื่อยๆ 
+
+และวิธีการคำนวณค่าส่วนกลับของความถี่เอกสาร
 
 \subsubsection{IDF - Inverse Document Frequency}
 
-\end{document}
+วิธีนี้ได้แนวคิดมาจาก Zipf's Law ที่กล่าวว่า "ความถี่ของคำแปรผกผันกับอันดับของคำ" หรือสามารถเขียนเป็นสามารกได้ดังสมการ \ref{eq:zipflaw} 
 
+\begin{equation}
+    f(k_{i}) \propto \frac{1}{r}
+    \label{eq:zipflaw}
+\end{equation}
+
+\begin{table}[ht!]
+    \begin{tabular}{lrl}
+        เมื่อ & $f(k_{i})$        & ความถี่ของคำ $k_i$  \\
+            & $r$               & คือ ลำดับของคำ $k_i$ ที่ได้จากการเรียงลำดับตามความถี่ที่เกิดขึ้นมากไปน้ยอ 
+    \end{tabular}
+\end{table}
+
+เมื่อผ่านการพิสูจน์มากแล้ว สามารถหาค่า IDF สมการ \ref{eq:idf}
+\begin{equation}
+    idf_{i,j} = \log{\frac{N}{n_i}}
+    \label{eq:idf}
+\end{equation}
+\begin{table}[ht!]
+    \begin{tabular}{lrl}
+        เมื่อ & $N$   & จำนวนเอกสารที่อยู่ภายในคลังเอกสาร\\
+            & $n_i$ & จำนวนเอกสารทั้งหมดที่ปรากฎคำ $k_i$ ในเอกสาร
+    \end{tabular}
+\end{table}
+
+\subsubsection{TF-IDF weight scheme}
+คือการคำนวณค่าน้ำหนักของเอกสารโดยอาศัยส่วนประกอบของ TF และ IDF เข้าร่วมกัน ดังสมการ
+\begin{equation}
+    w_{i,j} = 
+    \begin{cases}
+        (1 + \log{f_{i,j}}) \times \log{\frac{N}{n_i}} &;\ where\ f_{i,j} > 0 \\
+        0                   &; otherwise \\
+    \end{cases}
+    \label{eq:tfidf}
+\end{equation}
+\begin{table}[ht!]
+    \begin{tabular}{lrl}
+        เมื่อ & $w_{i,j}$     & ค่าน้ำหนัก TF-IDF ที่ได้จากการคำนวณ \\
+            & $f_{i,j}$     & ความถี่ของคำ $k_i$ ในเอกสาร $d_j$ \\
+            & $N$           & จำนวนเอกสารทั้งหมดในคลังเอกสาร \\
+            & $n_i$         & จำนวนเอกสารทั้งหมดที่ปรากฎคำ $k_i$ ในเอกสาร 
+    \end{tabular}
+\end{table}
+
+\subsubsection{ตัวอย่างการคำนวณ}
+กำหนดให้คลังเอกสารมีเอกสารทั้งสิ้น 5 รายการ และมีคำในคลังดังตารางด้านล่าง
+
+\begin{table}[ht!]
+    \centering
+    \caption{กลุ่มเอกสารตัวอย่าง}
+    \label{tab:datacollection}
+    \begin{tabular}{|p{2cm}||p{0.8\textwidth}|}
+        \hline
+        $d_1$   & When I want you in my arms, when I want you and all your charms Whenever I want you, all I have to do, is Dream, dream dream dream \\ 
+        \hline
+        $d_2$   & I dreamed a dream in time gone by When hope was high And life worth living I dreamed that love would never die I dreamed that God would be forgiving \\ 
+        \hline
+        $d_3$   & They lead me to believe That everything’s a mess But I wanna dream I wanna dream Leave me to dream \\
+        \hline
+        $d_4$   &   Sing with me if it's just for today Maybe tomorrow the good Lord will take you away Dream on, dream on, dream on, Dream yourself a dream come true Dream on, dream on, dream on, Dream until your dreams come true \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\newpage
+จากตารางที่ \ref{tab:datacollection} แสดงรายการเอกสารทั้งหมดในคลังเอกสาร จึงได้กำหนดกลุ่มคำศัพท์ที่ใช้เป็นตัวแทนของเอกสารทั้งสิ้น 10 คำ 
+โดยพิจารณาจากคำที่มีความถี่สูงสุดหลังจากนำ Stopword ออกไปเรียบร้อยแล้ว โดยให้ $V$ เป็นเซตของคำที่สนใจ ซึ่งประกอบไปด้วย
+
+\begin{equation*}
+    V = \{dream, me, want, come, true, would, sign, just, today, maybe\}
+\end{equation*}
+
+นำคำที่อยู่ในเซต $V$ มาหาความถี่ที่ปรากฎในแต่ละเอกสารจะได้ดังตารางที่ \ref{tab:WordFrequency}
+
+\begin{table}[ht!]
+    \centering
+    \caption{ความถี่ของคำที่พบภายในเอกสาร}
+    \label{tab:WordFrequency}
+    \begin{tabular}{p{1cm}|P{1.5cm} P{1.5cm} P{1.5cm} P{1.5cm}}
+        $k_i$   & $d_1$ & $d_2$ & $d_3$ & $d_4$ \\ \hline\hline
+        dream   &   4   & 4     & 3     & 9     \\ % \hline
+        me      &   0   & 0     & 0     & 0     \\ % \hline
+        want    &   3   & 0     & 2     & 0     \\ % \hline
+        come    &   0   & 0     & 0     & 2     \\ % \hline
+        true    &   0   & 0     & 0     & 2     \\ % \hline
+        would   &   0   & 1     & 0     & 0     \\ % \hline
+        sign    &   0   & 0     & 0     & 1     \\ % \hline
+        just    &   0   & 0     & 0     & 1     \\ % \hline
+        today   &   0   & 0     & 0     & 1     \\ % \hline
+        maybe   &   0   & 0     & 0     & 1     \\ % \hline
+    \end{tabular}
+\end{table}
+
+เมื่อได้ค่าความถี่ของคำที่สนใจในเอกสารแล้ว ก็นำค่าที่ได้เหล่านี้มาคำนวณหาค่า $tf_{i,j}$ ตามสมการ (\ref{eq:tf}) ตัวอย่างเช่น 
+ต้องการหากค่า TF ของ คำว่า \emph{dream} ในเอกสาร $d_1$ จะได้ว่า
+
+\begin{align*}
+    tf_{1,1}    & = 1 + \log_{2}{4} \\
+                & = 1 + 2           \\ 
+    tf_{1,1}    & = 3               \\
+\end{align*}
+
+หากต้องคำนวณค่าของคำที่ไม่ปรากฎในเอกสารนั้นเลย เช่นคำว่า \emph{me} ในเอกสาร $d_1$ จะได้ว่า
+\begin{align*}
+    tf_{2,1}    & = 0  \\
+\end{align*}
+ 
+ โดยที่ค่าทั้งหมดนั้นจะปรากฎดังที่ได้ไแสดงไว้ในตารางที่ \ref{tab:tfcalculate}
+
+\newpage
+\begin{table}[ht!]
+    \centering
+    \caption{ค่า TF ของคำแยกตามเอกสาร}
+    \label{tab:tfcalculate}
+    \begin{tabular}{p{1cm}|P{1.5cm} P{1.5cm} P{1.5cm} P{1.5cm}}
+        $k_i$   & $d_1$ & $d_2$ & $d_3$ & $d_4$ \\ \hline\hline
+        dream   &  3    & 3     & 2.58  & 4.17  \\ % \hline
+        me      &  2.58 & 0     & 0     & 0     \\ % \hline
+        want    &  3    & 0     & 2     & 0     \\ % \hline
+        come    &  0    & 0     & 0     & 2     \\ % \hline
+        true    &  0    & 0     & 0     & 2     \\ % \hline
+        would   &  0    & 1     & 0     & 0     \\ % \hline
+        sign    &  0    & 0     & 0     & 1     \\ % \hline
+        just    &  0    & 0     & 0     & 1     \\ % \hline
+        today   &  0    & 0     & 0     & 1     \\ % \hline
+        maybe   &  0    & 0     & 0     & 1     \\ % \hline
+    \end{tabular}
+\end{table}
+
+คำนวณ{\idf} ตามสมการ ({\ref{eq:idf}) ซึ่งค่า{\idf}นั้นจะมองในมุมของเอกสารโดยรวม โดยค่าที่คำนวณได้ดังตารางที่ \ref{tab:idfcalculate}
+\begin{table}[ht!]
+    \centering
+    \caption{ค่า{\idf}\ (IDF)}
+    \label{tab:idfcalculate}
+    \begin{tabular}{p{1cm}|P{1.5cm}P{1.5cm}}
+        $k_i$   & $n_i$ & $\log{\frac{N}{n_i}}$ \\ \hline \hline
+        dream   &  4    & 0                     \\ % \hline
+        me      &  1    & 2                     \\ % \hline
+        want    &  2    & 1                     \\ % \hline
+        come    &  1    & 2                     \\ % \hline
+        true    &  1    & 2                     \\ % \hline
+        would   &  1    & 2                     \\ % \hline
+        sign    &  1    & 2                     \\ % \hline
+        just    &  1    & 2                     \\ % \hline
+        today   &  1    & 2                     \\ % \hline
+        maybe   &  1    & 2                     \\ % \hline
+    \end{tabular}
+\end{table}
+
+เมื่อได้ค่า TF (ตารางที่ {\ref{tab:tfcalculate}) และค่า IDF (ตารางที่ {\ref{tab:idfcalculate}) แล้ว 
+จึงสามารถคำนวณหาค่า TF-IDF ตามสมการ (\ref{eq:tfidf}) ดังที่ได้แสดงในตารางที่ (\ref{tab:tfidfcalculate})
+
+\begin{table}[ht!]
+    \centering
+    \caption{ผลลัพธ์การคำนวณค่าน้ำหนัก TF-IDF}
+    \label{tab:tfidfcalculate}
+    \begin{tabular}{p{1cm}|P{1.5cm} P{1.5cm} P{1.5cm} P{1.5cm}}
+        \multirow{2}{*}{ $k_i$ }    & \multicolumn{4}{c}{ $w_{i,j} = TF_{i,j} \times IDF_{i}$ } \\ 
+                                    & $d_1$ & $d_2$ & $d_3$ & $d_4$ \\ \hline \hline
+        dream                       &  0    & 0     & 0     & 0     \\ % \hline
+        me                          &  5.16 & 0     & 0     & 0     \\ % \hline
+        want                        &  3    & 0     & 2     & 0     \\ % \hline
+        come                        &  0    & 0     & 0     & 4     \\ % \hline
+        true                        &  0    & 0     & 0     & 4     \\ % \hline
+        would                       &  0    & 2     & 0     & 0     \\ % \hline
+        sign                        &  0    & 0     & 0     & 2     \\ % \hline
+        just                        &  0    & 0     & 0     & 2     \\ % \hline
+        today                       &  0    & 0     & 0     & 2     \\ % \hline
+        maybe                       &  0    & 0     & 0     & 2     \\ % \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection{สรุปความสำคัญ}
+TF-IDF นั้นอธิบายถึงความสำคัญของคำโดยพิจารณาจากความถี่ที่ปรากฎขึ้นในเอกสารนั้นๆ ถ่วงน้ำหนักกับ{\idf}เพื่อลดความสำคัญของคำที่ปรากฎขึ้นอยู่ทุกๆ 
+เอกสาร เพราะนั้นแสดงว่าคำนั้นไม่สามารถเป็นตัวแทนของเอกสารที่ดีได้ แต่ในทางกลับกัน คำที่มีความถี่ในบางช่วงกลับทำหน้าที่เป็นตัวแทนของเอกสารที่ดีกว่าได้ 
+จากตารางที่ \ref{tab:tfidfcalculate}\ นั้นจะเห็นได้ว่า \emph{"dream"} นั้นไม่สามารถเป็นตัวแทนเอกสารใดๆ ได้เลย เนื่องจากปรากฎในทุกๆ เอกสาร
+ทำให้ค่า{\idf}จึงลดความสำคัญของคำนี้ลง แต่ในทางกลับกัน \emph{"me"} นั้นปรากฎเพียงแค่เอกสาร $d_1$ เท่านั้น เมื่อถ่วงน้ำหนักค่า TF ด้วยค่า IDF
+แล้วจึงทำให้ค่า TF-IDF เพิ่มขึ้นเป็น 5.16 บ่งชี้ได้ว่า \emph{"me"} นั้นเป็นตัวแทนเอกสาร $d_1$ ได้ดี
+
+\newpage
+
+\subsection{Vector model}
+
+เวกเตอร์โมเดล เป็นโมเดลที่มองถึงมุมของเอกสาร โดยสร้างเวกเตอร์ของเอกสารที่น้องการนั้นขึ้นมาก่อน จากนั้นเทียบกับคำค้นที่ผู้ใช้งานระบุ
+เพื่อเทียบมุมระหว่างเอกสารในคลังเอกสารและคำค้น เอกสารที่ทำมุมกับคำค้นน้อยที่สุด (ค่าเข้าใกล้ 1 หรือมีค่าเท่ากับ 1) 
+ก็ถือว่าเป็นเอกสารที่เกี่ยวข้องกับคำค้นนั้นมากที่สุดตามไปด้วย โดยมีแนวคิดจากสมการ
+
+\begin{equation*}
+    \cos{(\theta)} = \frac{\overrightarrow{d_j} \cdot {\overrightarrow{q}}}{|\overrightarrow{d_j}| \times |\overrightarrow{q}|}
+    \label{eq:coseq}
+\end{equation*}
+
+เมื่อพิจารณาในลักษณะเวกเตอร์ของเอกสารและคำค้น จะได้นัดสมการด้านล่าง
+
+\begin{equation}
+    sim(d_{j},q) = \frac{\sum_{i=1}^{t}{w_{i,j} \cdot w_{i,q}}}{\sqrt{\sum_{i=1}^{t}{w^2_{i,j}}} \times \sqrt{\sum_{j=1}^{t}{w^2_{i,q}}}}
+\end{equation}
+
+\begin{table}[ht!]
+    \begin{tabular}{lrl}
+        เมื่อ & $sim(d_{j}, q)$   & ค่าความคล้ายที่คำนวนได้ตาม Vector model \\
+            & $w_{i,j}$         & น้ำหนักของคำ $k_i$ ในเอกสาร $d_j$ \\
+            & $w_{i,q}$         & น้ำหนักของคำค้น $k_i$ ในคำค้น $q$ 
+    \end{tabular}
+\end{table}
+
+ซึ่งก่อนหน้านี้ผมค่อนข้างมีปัญหากับโมเดลนี้ เนื่องจากไม่เข้าใจวิธีการคำนวณหาค่าความคล้ายระหว่างคำค้นและเอกสาร ได้อย่างไร หลังจากศึกษาวิธีการแล้วสรุปความเข้าใจโดยใช้คำค้น 
+คือ \{me, want\} ได้ดังตัวอย่างดังนี้
+
+\subsubsection{สร้างเวกเตอร์ของเอกสาร}
+
+กำหนดให้คำค้นคือ \{me, want\} และจากตารางที่ \ref{tab:tfidfcalculate}\ จะได้ค่าดังนี้
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabular}{cl} 
+        $d_1$   & = (0, 5.16, 3, 0, 0, 0, 0, 0, 0, 0)  \\
+        $d_2$   & = (0,    0, 2, 0, 2, 0, 0, 0, 0, 0) \\
+        $d_3$   & = (0,    0, 2, 0, 0, 0, 0, 0, 0, 0)  \\
+        $d_4$   & = (0,    0, 0, 4, 4, 0, 2, 2, 2, 2)  \\
+        % $q$     & = (0,    3, 1, 0, 0, 0, 0, 0, 0, 0)  \\
+    \end{tabular}
+    \label{tab:inputvector}
+\end{table}
+
+\subsubsection{คำนวณนำหนักของคำค้นพร้อมสร้างเวกเตอร์ของคำค้น}
+
+เนื่องจากคำค้นที่ต้องการค้นหาคือ \emph{want, me} โดยค่า IDF จะแตกต่างกันออกไป สามารถดูได้จากตารางที่ \ref{tab:idfcalculate} เพื่อเป็นข้อมูลประกอบ ในที่นี้ ค่า IDF ของ \emph{me} และ \emph{want} จะมีค่าเป็น 2 และ 1 ตามลำดับ จากนั้นนำค่าน้ำหนักที่คำนวนได้มาสร้างเวกเตอร์ โดยสามารถแจกแจงรายละเอียดได้ดังวิธีทำด้านล่าง
+
+\begin{align*}
+   w_{2,q} = (0.1  \times 2) = 0.2 \\
+   w_{3,q} = (2.58 \times 1) = 2.58 \\
+\end{align*}
+
+ดังนั้นสามารถนำข้อมูลข้างต้นเขียนให้อยู่ในรูปของเวกเตอร์คำค้น และคำนวนให้อยู่ในรูปแบบนั้นจะได้ว่า 
+\begin{align*}
+    \overrightarrow{q} = (0, 0, 0.2, 2.58, 0, 0, 0, 0, 0, 0)
+\end{align*}
+
+เมื่อได้ค่าเวกเตอร์ $\overrightarrow{q}$ ลำดับถัดไป จึงนำค่าเวกเตอร์นี้มาหาค่าค่าความคล้ายกับระหว่างเอกสารและคำค้นที่ป้อน ดังสมการ ({\ref{eq:tfidf}}) 
+
+\begin{align*}
+    sim_{cosine}(\overrightarrow{d_{1}}, \overrightarrow{q}) & = \frac{\sum_{i=1}^{t} w_{i,j} \cdot w_{i,q}}{\sqrt{\sum_{i=1}^{t} w_{i,j}^2} \times \sqrt{\sum_{j=1}^{t} w_{i,q}^2}} \\
+    &= \frac{(5.16 \times 0) + (3 \times 0.2) + (0 \times 2.58)}{\sqrt{5.16^{2} + 3^2} \times \sqrt{0.2^2 + 2.58^2}} \\
+    &= \frac{0 + 0.6 + 0}{\sqrt{26.6256 + 9} \times \sqrt{0.04 + 6.6564}} \\
+    &= \frac{0.6}{\sqrt{35.6256} \times \sqrt{6.6964}} \\
+    &= \frac{0.6}{5.9687 \times 2.5877} \\
+    &= \frac{0.6}{8.5564} \\
+    sim_{cosine}(\overrightarrow{d_{1}}, \overrightarrow{q}) &= 0.0701 
+\end{align*}
+
+จากตัวอย่างของวิธีการคำนวนหาค่า \emph{Cosine Similarity} ด้านบน จะได้ค่าความคล้ายของคำค้น \emph{q} 
+และเอกสาร \emph{$d_{1}$} มีค่าเป็น {\bf \emph{0.0701}} เพื่อหาค่าความคล้ายกันระหว่างคำค้น \emph{q} และ \emph{$d_{j}$} ใด ๆ ในคลังเอกสาร ได้ค่าดังนี้
+
+\begin{table}[ht!]
+    \centering
+    \caption{ค่าความคล้ายกันระหว่างคำค้น \emph{$q$} และเอกสาร \emph{$d_j$} ใด ๆ ในคลังเอกสาร}
+    \label{tab:cosinesimcalculate}
+    \begin{tabular}{|c|l|} 
+        \hline
+        $sim_{cosine}(d_1, q)$   & 0.0701  \\
+        \hline
+        $sim_{cosine}(d_2, q)$   & 0.0773 \\
+        \hline
+        $sim_{cosine}(d_3, q)$   & 0.0773 \\
+        \hline
+        $sim_{cosine}(d_4, q)$   & 0.5756 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+ดังนั้น สรุปได้ว่า เมื่อนำคำค้น \emph{$q$} มาคำนวณค่าความคล้ายกับเอกสารทั้งหมดในคลังข้อมูล จะพบว่า 
+เอกสาร \emph{$d_4$} นั้นมีความคล้ายมากที่สุดด้วยค่าความคล้าย {\bf 0.5756 } 
+
+\subsubsection{สรุปความสำคัญ} 
+
+ในการคำนวณค่าความคล้ายตาม Vector Model เพื่อหาค่า Cosine similarity ดังแสดงในตาราง 
+\ref{tab:cosinesimcalulate} นั้นจะได้ค่าความคล้ายกันระหว่างเอกสารและคำค้นออกมา 
+เพื่อนำมาใช้จัดเรียงลำดับของเอกสารได้
+
+\end{document} 
